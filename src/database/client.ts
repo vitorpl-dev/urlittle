@@ -3,13 +3,13 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 prisma.$use(async (params, next) => {
-	const result = await next(params);
+  const result = await next(params);
 
-	if (params?.model === 'Users' && params?.args?.select?.password !== true) {
-		delete result.password;
-	}
+  if (params?.model === 'User' && params?.args?.select?.password !== true) {
+    delete result.password;
+  }
 
-	return result;
+  return result;
 });
 
 export { prisma };

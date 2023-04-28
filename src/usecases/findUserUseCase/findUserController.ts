@@ -1,23 +1,22 @@
 import { Request, Response } from 'express';
 import { generateToken } from '../../common/generateToken';
-import { CreateUserUseCase } from './createUserUseCase';
+import { FindUserUseCase } from './findUserUseCase';
 
-export class CreateUserController {
-  constructor(private createUserUseCase: CreateUserUseCase) {}
+export class FindUserController {
+  constructor(private findUserUseCase: FindUserUseCase) {}
 
   async handle(req: Request, res: Response) {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const user = await this.createUserUseCase.execute({
-        name,
+      const user = await this.findUserUseCase.execute({
         email,
         password,
       });
 
       const token = generateToken({ id: user.id });
 
-      res.status(201).json({
-        message: 'User create',
+      res.status(200).json({
+        message: 'User authenticated',
         token,
         data: user,
       });
